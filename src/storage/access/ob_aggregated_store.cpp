@@ -457,10 +457,24 @@ int ObAggregatedStore::fill_count(const int64_t row_count)
     for (int64_t i = 0; OB_SUCC(ret) && i < agg_row_.get_agg_count(); ++i) {
       ObAggCell *cell = agg_row_.at(i);
       if (cell->finished()) {
+      // } else if (OB_FAIL(cell->eval_batch(&(cell->get_result_datum()), row_count))) {
       } else if (OB_FAIL(cell->eval(row_buf_.storage_datums_[cell->get_col_offset()], row_count))) {
+        // row_buf_.storage_datums_[cell->get_col_offset()]
         LOG_WARN("Fail to eval agg cell", K(ret), K(row_count));
       }
     }
+
+    // for (int64_t i = 0; OB_SUCC(ret) && i < agg_row_.get_agg_count(); ++i) {
+    //   ObAggCell *cell = agg_row_.at(i);
+    //   // if (OB_FAIL(cell->eval(&(row_buf_.storage_datums_), row_count))) {
+    //   // if (OB_FAIL(cell->eval_batch(cell->col_datums_, row_count))) {
+    //   // if (OB_FAIL(cell->eval_batch(cell->get_col_datums(), row_count))) {
+    //   // if (OB_FAIL(cell->eval_batch(&(cell->get_result_datum()), row_count))) {
+    //     LOG_WARN("Failed to eval agg cell", K(ret), K(i), K(*cell));
+    //   }
+    // }
+
+    // OB_FAIL(cell->eval_batch(row.storage_datums_[cell->get_col_offset()]))
   }
   return ret;
 }
