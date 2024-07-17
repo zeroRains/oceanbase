@@ -453,6 +453,14 @@ int ObAggregatedStore::fill_count(const int64_t row_count)
     STORAGE_LOG(WARN, "Invalid argument to fill count", K(ret), K(row_count));
   } else {
     LOG_DEBUG("debug to fill row count", K(ret), K(row_count));
+    // my code here
+    for (int64_t i = 0; OB_SUCC(ret) && i < agg_row_.get_agg_count(); ++i) {
+      ObAggCell *cell = agg_row_.at(i);
+      if (cell->finished()) {
+      } else if (OB_FAIL(cell->eval(row_buf_.storage_datums_[cell->get_col_offset()], row_count))) {
+        LOG_WARN("Fail to eval agg cell", K(ret), K(row_count));
+      }
+    }
   }
   return ret;
 }

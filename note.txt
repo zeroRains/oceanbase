@@ -1,0 +1,9 @@
+bash build.sh debug --init --make -j2
+
+./tools/deploy/obd.sh stop -n single
+
+cp build_debug/src/observer/observer /tmp/obtest/observer1/bin/observer
+
+./tools/deploy/obd.sh start -n single
+
+./tools/deploy/obd.sh mysqltest --test-set count_pushdown_single_major --suite aggregate_pushdown

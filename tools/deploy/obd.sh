@@ -781,3 +781,6 @@ function main() {
 }
 
 main "$@"
+
+# ./tools/deploy/obd.sh prepare -p /tmp/obtest
+# ./tools/deploy/obd.sh deploy -c ./tools/deploy/single.yaml
