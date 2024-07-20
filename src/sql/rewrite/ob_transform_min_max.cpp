@@ -158,7 +158,7 @@ int ObTransformMinMax::do_minmax_transform(ObSelectStmt *select_stmt)
     } else{
       for(int64_t i = 0 ;i<select_stmt->get_aggr_item_size();i++){
         if(OB_ISNULL(aggr_expr = select_stmt->get_aggr_item(i))
-          || OB_ISNULL(aggr_param = aggr_expr->get_param_expr(i))){
+          || OB_ISNULL(aggr_param = aggr_expr->get_param_expr(0))){
           ret = OB_ERR_UNEXPECTED;
           LOG_WARN("get unexpected null", K(ret));
           break;
